@@ -1,4 +1,4 @@
-FROM ruhmesmeile/php-nginx:ubuntu-16.04
+FROM ruhmesmeile/php-nginx:ubuntu-14.04
 
 RUN mkdir -p /web/
 WORKDIR /web/
