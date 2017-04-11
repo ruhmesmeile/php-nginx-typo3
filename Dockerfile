@@ -16,5 +16,4 @@ COPY config/nginx/09-fpm.conf /opt/docker/etc/nginx/vhost.common.d/09-fpm.conf
 COPY config/cron/crontab /etc/cron.d/typo3
 COPY config/cron/cron.conf /opt/docker/etc/supervisor.d/cron.conf
 
-RUN chown application:www-data /etc/cron.d/typo3
 RUN chmod 0644 /etc/cron.d/typo3
