@@ -11,3 +11,9 @@ COPY config/php/99-docker.php.ini /etc/php5/fpm/conf.d/99-docker.ini
 # Configure Nginx
 COPY config/nginx/vhost.conf /opt/docker/etc/nginx/vhost.conf
 COPY config/nginx/09-fpm.conf /opt/docker/etc/nginx/vhost.common.d/09-fpm.conf 
+
+# Configure cronjob
+COPY config/cron/crontab /etc/cron.d/typo3
+COPY config/cron/cron.conf /opt/docker/etc/supervisor.d/cron.conf
+
+RUN chmod 0644 /etc/cron.d/typo3
