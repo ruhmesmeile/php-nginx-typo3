@@ -16,8 +16,5 @@ COPY config/nginx/09-fpm.conf /opt/docker/etc/nginx/vhost.common.d/09-fpm.conf
 COPY config/cron/crontab /etc/cron.d/typo3
 COPY config/cron/cron.conf /opt/docker/etc/supervisor.d/cron.conf
 
-RUN /usr/local/bin/apt-install mysql-client-5.7 \
-    && docker-image-cleanup
-
 RUN adduser www-data application
 RUN chmod 0644 /etc/cron.d/typo3
