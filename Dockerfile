@@ -1,4 +1,4 @@
-FROM webdevops/php-nginx-dev:7.1
+FROM webdevops/php-nginx-dev:ubuntu-16.04
 
 RUN mkdir -p /web/
 WORKDIR /web/
