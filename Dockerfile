@@ -1,8 +1,8 @@
 FROM webdevops/php-nginx:ubuntu-16.04
 
 # Add application dir
-RUN mkdir -p /web/
-WORKDIR /web/
+RUN mkdir -p /app/
+WORKDIR /app/
 
 # Configure PHP
 COPY config/php/99-docker.php.ini /etc/php/7.0/fpm/conf.d/99-docker.ini
