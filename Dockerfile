@@ -4,6 +4,9 @@ FROM webdevops/php-nginx:ubuntu-16.04
 RUN mkdir -p /app/
 WORKDIR /app/
 
+# Add directory for PHP socket
+RUN mkdir -p /var/run/php
+
 # Configure PHP
 COPY config/php/99-docker.php.ini /etc/php/7.0/fpm/conf.d/99-docker.ini
 
