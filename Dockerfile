@@ -31,6 +31,7 @@ RUN version=$(php -r "echo PHP_MAJOR_VERSION.PHP_MINOR_VERSION;") \
   && chown root:root $(php -r "echo ini_get('extension_dir');")/blackfire.so
 
 # Configure Nginx
+COPY config/nginx/mime.types /etc/nginx/mime.types
 COPY config/nginx/fastcgi_params /etc/nginx/fastcgi_params
 COPY config/nginx/nginx.conf /etc/nginx/nginx.conf
 COPY config/nginx/vhost.conf /opt/docker/etc/nginx/vhost.conf
