@@ -26,7 +26,7 @@ COPY config/php/application.conf /usr/local/etc/php-fpm.d/application.conf
 COPY bin/apc.so /tmp/apc.so
 RUN mv /tmp/apc.so $(php -r "echo ini_get('extension_dir');")/apc.so \
   && echo "extension=apc.so" | tee /opt/docker/etc/php/apcu-bc.ini \
-  && ln -sf /opt/docker/etc/php/apcu-bc.ini /usr/local/etc/php/conf.d/30-apcu-bc.ini
+  && ln -sf /opt/docker/etc/php/apcu-bc.ini /usr/local/etc/php/conf.d/apcu-bc.ini
 
 # Configure Blackfire
 COPY config/php/97-blackfire.php.ini /opt/docker/etc/php/blackfire.ini
