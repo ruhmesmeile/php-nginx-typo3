@@ -23,8 +23,7 @@ COPY config/php/99-docker.php.ini /usr/local/etc/php/conf.d/99-docker.ini
 COPY config/php/application.conf /usr/local/etc/php-fpm.d/application.conf
 
 # Install APCu / APC backwards compatibility
-COPY bin/apc.so /tmp/apc.so
-RUN mv /tmp/apc.so $(php -r "echo ini_get('extension_dir');")/apc.so \
+RUN pecl -d preferred_state=beta install apcu_bc \
   && echo "extension=apc.so" | tee /opt/docker/etc/php/apcu-bc.ini \
   && ln -sf /opt/docker/etc/php/apcu-bc.ini /usr/local/etc/php/conf.d/apcubc.ini
 
