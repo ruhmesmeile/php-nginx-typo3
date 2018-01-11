@@ -4,6 +4,14 @@ FROM webdevops/php-nginx:7.1
 RUN mkdir -p /app/
 WORKDIR /app/
 
+# Install current Nginx
+RUN echo "deb http://nginx.org/packages/debian/ jessie nginx" >> /etc/apt/sources.list \
+  && echo "deb-src http://nginx.org/packages/debian/ jessie nginx" >> /etc/apt/sources.list \
+  && curl http://nginx.org/keys/nginx_signing.key > /tmp/nginx_signing.key \
+  && apt-key add /tmp/nginx_signing.key \
+  && apt-get update \
+  && DEBIAN_FRONTEND=noninteractive apt-get --yes install nginx
+
 # Add directory for PHP socket
 RUN mkdir -p /var/run/php
 
@@ -40,14 +48,6 @@ COPY config/nginx/vhost.common.d /opt/docker/etc/nginx/vhost.common.d
 COPY config/cron/crontab /etc/cron.d/typo3
 COPY config/cron/cron.conf /opt/docker/etc/supervisor.d/cron.conf
 
-# Install current Nginx
-RUN echo "deb http://nginx.org/packages/debian/ jessie nginx" >> /etc/apt/sources.list \
-  && echo "deb-src http://nginx.org/packages/debian/ jessie nginx" >> /etc/apt/sources.list \
-  && curl http://nginx.org/keys/nginx_signing.key > /tmp/nginx_signing.key \
-  && apt-key add /tmp/nginx_signing.key \
-  && apt-get update \
-  && apt-get --assume-yes install nginx
-
 # Install MySQL client
 RUN echo "deb http://repo.mysql.com/apt/debian jessie mysql-5.7" >> /etc/apt/sources.list \
   && gpg --recv-keys 5072E1F5 || true \
@@ -55,7 +55,7 @@ RUN echo "deb http://repo.mysql.com/apt/debian jessie mysql-5.7" >> /etc/apt/sou
   && gpg --recv-keys 5072E1F5 \
   && gpg --export 5072E1F5 > /etc/apt/trusted.gpg.d/5072E1F5.gpg \
   && apt-get update \
-  && apt-get --assume-yes install mysql-client \
+  && apt-get --yes install mysql-client \
   && docker-image-cleanup
 
 # Add user and fix permissions
