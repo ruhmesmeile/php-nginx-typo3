@@ -10,7 +10,8 @@ RUN echo "deb http://nginx.org/packages/debian/ jessie nginx" >> /etc/apt/source
   && curl http://nginx.org/keys/nginx_signing.key > /tmp/nginx_signing.key \
   && apt-key add /tmp/nginx_signing.key \
   && apt-get update \
-  && DEBIAN_FRONTEND=noninteractive apt-get --yes install nginx
+  && export DEBIAN_FRONTEND=noninteractive \
+  && apt-get -o Dpkg::Options::="--force-confnew" install -y nginx
 
 # Add directory for PHP socket
 RUN mkdir -p /var/run/php
