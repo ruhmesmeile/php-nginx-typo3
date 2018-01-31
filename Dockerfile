@@ -23,7 +23,7 @@ COPY config/php/99-docker.php.ini /usr/local/etc/php/conf.d/99-docker.ini
 COPY config/php/application.conf /usr/local/etc/php-fpm.d/application.conf
 
 # Configure core dumps
-echo '/tmp/coredump-%e.%p' > /proc/sys/kernel/core_pattern
+RUN echo '/tmp/coredump-%e.%p' > /proc/sys/kernel/core_pattern
 
 # Install APCu / APC backwards compatibility
 RUN pecl -d preferred_state=beta install apcu_bc \
