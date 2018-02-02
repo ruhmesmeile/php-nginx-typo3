@@ -71,8 +71,7 @@ RUN \
     && addgroup docker staff \
     && addgroup docker sudo \
     && true \
-  && chown -R docker:docker /home/docker/.ssh \
-  && service ssh restart;
+  && chown -R docker:docker /home/docker/.ssh;
 
 # Install MySQL client
 RUN echo "deb http://repo.mysql.com/apt/debian jessie mysql-5.7" >> /etc/apt/sources.list \
