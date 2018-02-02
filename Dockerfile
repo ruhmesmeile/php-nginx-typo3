@@ -48,6 +48,32 @@ COPY config/nginx/vhost.common.d /opt/docker/etc/nginx/vhost.common.d
 COPY config/cron/crontab /etc/cron.d/typo3
 COPY config/cron/cron.conf /opt/docker/etc/supervisor.d/cron.conf
 
+# Configure local SSH server
+RUN apt-get --yes install openssh-server sudo \
+  && mkdir -p /var/run/sshd && sed -i "s/UsePrivilegeSeparation.*/UsePrivilegeSeparation no/g" /etc/ssh/sshd_config \
+  && sed -i 's/PermitRootLogin without-password/PermitRootLogin yes/' /etc/ssh/sshd_config \
+  && touch /root/.Xauthority \
+  && true
+
+ADD config/sshd/authorized_keys /tmp/authorized_keys
+
+RUN \
+  for MYHOME in /root /home/docker; do \
+    mkdir -p ${MYHOME}/.ssh; \
+    chmod go-rwx ${MYHOME}/.ssh; \
+    cp /tmp/authorized_keys ${MYHOME}/.ssh/authorized_keys; \
+    chmod go-rw ${MYHOME}/.ssh/authorized_keys; \
+  done \
+  && useradd docker \
+    && passwd -d docker \
+    && mkdir -p /home/docker \
+    && chown docker:docker /home/docker \
+    && addgroup docker staff \
+    && addgroup docker sudo \
+    && true \
+  && chown -R docker:docker /home/docker/.ssh \
+  && service ssh restart;
+
 # Install MySQL client
 RUN echo "deb http://repo.mysql.com/apt/debian jessie mysql-5.7" >> /etc/apt/sources.list \
   && gpg --recv-keys 5072E1F5 || true \
@@ -55,8 +81,14 @@ RUN echo "deb http://repo.mysql.com/apt/debian jessie mysql-5.7" >> /etc/apt/sou
   && gpg --recv-keys 5072E1F5 \
   && gpg --export 5072E1F5 > /etc/apt/trusted.gpg.d/5072E1F5.gpg \
   && apt-get update \
-  && apt-get --yes install mysql-client \
-  && docker-image-cleanup
+  && apt-get --yes install mysql-client
+
+# Clean up image
+RUN docker-image-cleanup
+
+# Add utilities to container
+COPY util /usr/local/bin/rmutil
+RUN chmod a+x /usr/local/bin/rmutil/*
 
 # Add user and fix permissions
 RUN adduser www-data application
