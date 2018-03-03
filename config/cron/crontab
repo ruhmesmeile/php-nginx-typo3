@@ -1,1 +1,1 @@
-* * * * * root /usr/bin/php /app/web/typo3/cli_dispatch.phpsh scheduler
+* * * * * root /usr/local/bin/php /app/web/typo3/cli_dispatch.phpsh scheduler
