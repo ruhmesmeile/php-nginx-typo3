@@ -30,9 +30,3 @@ apt-get update;
 apt-get --yes install gdb strace;
 
 docker-image-cleanup;
-
-
-
-=192.168.100.172
-XDEBUG_REMOTE_PORT=9000
-XDEBUG_REMOTE_CONNECT_BACK=0
