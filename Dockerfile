@@ -37,8 +37,6 @@ COPY config/nginx/vhost.common.d /opt/docker/etc/nginx/vhost.common.d
 COPY config/cron/crontab /etc/cron.d/typo3
 COPY config/cron/cron.conf /opt/docker/etc/supervisor.d/cron.conf
 
-ADD config/sshd/authorized_keys /tmp/authorized_keys
-
 # Install MySQL client
 RUN echo "deb http://repo.mysql.com/apt/debian jessie mysql-5.7" >> /etc/apt/sources.list \
   && gpg --recv-keys 5072E1F5 || true \
