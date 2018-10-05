@@ -5,7 +5,7 @@ RUN mkdir -p /app/
 WORKDIR /app/
 
 # Install current Nginx
-RUN apt-get update && apt-get install -y apt-utils \
+RUN apt-get update && apt-get install -y apt-utils dirmngr \
   && echo "deb http://ftp.debian.org/debian stretch-backports main" >> /etc/apt/sources.list \
   && export DEBIAN_FRONTEND=noninteractive \
   && apt-get update \
