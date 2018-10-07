@@ -8,7 +8,7 @@ set -o errexit   ## set -e : exit the script if any statement returns a non-true
 
 cd /app
 
-mysql -h $DBHOST -u $DBUSER -p"$DBPASS" -e "DROP DATABASE IF EXISTS $TYPO3__DB__Connections__Default__dbname; CREATE DATABASE $TYPO3__DB__Connections__Default__dbname;"
+mysql -h $TYPO3__DB__Connections__Default__host -u $TYPO3__DB__Connections__Default__user -p"$TYPO3__DB__Connections__Default__password" -e "DROP DATABASE IF EXISTS $TYPO3__DB__Connections__Default__dbname; CREATE DATABASE $TYPO3__DB__Connections__Default__dbname;"
 rm -f web/typo3conf/LocalConfiguration.php web/typo3conf/PackageStates.php
 rm -rf web/typo3temp/*
 
