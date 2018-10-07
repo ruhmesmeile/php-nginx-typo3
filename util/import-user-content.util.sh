@@ -12,4 +12,4 @@ bzcat /tmp/import/*-orbit.structure.sql.bz2 | mysql --max_allowed_packet=256M -h
 bzcat /tmp/import/*-orbit.data.sql.bz2 | mysql --max_allowed_packet=256M -h $TYPO3__DB__Connections__Default__host -u $TYPO3__DB__Connections__Default__user -p$TYPO3__DB__Connections__Default__password || true;
 vendor/bin/typo3cms database:updateschema || true;
 rm -rf web/fileadmin/* web/uploads/* private/* || true;
-tar -zxf web/*.orbit.files.tar.gz -C web || true;
+tar -zxf /tmp/import/*.orbit.files.tar.gz -C web || true;
