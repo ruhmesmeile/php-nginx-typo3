@@ -8,8 +8,8 @@ set -o errexit   ## set -e : exit the script if any statement returns a non-true
 
 cd /app
 
-bzcat /tmp/import/*-orbit.structure.sql.bz2 | mysql --max_allowed_packet=256M -h $TYPO3__DB__Connections__Default__host -u $TYPO3__DB__Connections__Default__user -p$TYPO3__DB__Connections__Default__password || true;
-bzcat /tmp/import/*-orbit.data.sql.bz2 | mysql --max_allowed_packet=256M -h $TYPO3__DB__Connections__Default__host -u $TYPO3__DB__Connections__Default__user -p$TYPO3__DB__Connections__Default__password || true;
+bzcat /tmp/import/*-orbit.structure.sql.bz2 | LC_ALL=C sed "s/orbit_tech/orbit_production/g" | LC_ALL=C sed "s/orbit_review/orbit_production/g" | mysql --max_allowed_packet=256M -h $TYPO3__DB__Connections__Default__host -u $TYPO3__DB__Connections__Default__user -p$TYPO3__DB__Connections__Default__password || true;
+bzcat /tmp/import/*-orbit.data.sql.bz2 | LC_ALL=C sed "s/orbit_tech/orbit_production/g" | LC_ALL=C sed "s/orbit_review/orbit_production/g" |mysql --max_allowed_packet=256M -h $TYPO3__DB__Connections__Default__host -u $TYPO3__DB__Connections__Default__user -p$TYPO3__DB__Connections__Default__password || true;
 vendor/bin/typo3cms database:updateschema || true;
 rm -rf web/fileadmin/* web/uploads/* private/* || true;
 tar -zxf /tmp/import/*.orbit.files.tar.gz -C web || true;
