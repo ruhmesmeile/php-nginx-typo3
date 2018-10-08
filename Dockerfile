@@ -53,10 +53,6 @@ RUN docker-image-cleanup
 COPY util /usr/local/bin/rmutil
 RUN chmod a+x /usr/local/bin/rmutil/*
 
-# Add importer to entrypoint.d
-COPY entrypoint.sh /opt/docker/provision/entrypoint.d/30-importer.sh
-RUN chmod a+x /opt/docker/provision/entrypoint.d/30-importer.sh
-
 # Add user and fix permissions
 RUN adduser www-data application
 RUN chmod 0644 /etc/cron.d/typo3
