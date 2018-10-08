@@ -6,5 +6,5 @@ set -o nounset   ## set -u : exit the script if you try to use an uninitialised 
 set -o errexit   ## set -e : exit the script if any statement returns a non-true return value
 # set -x # Uncomment for debugging
 
-install-typo3.util.sh
-import-user-content.util.sh
+/usr/local/bin/rmutil/install-typo3.util.sh
+/usr/local/bin/rmutil/import-user-content.util.sh
