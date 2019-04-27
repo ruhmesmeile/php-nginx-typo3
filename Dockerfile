@@ -5,8 +5,8 @@ RUN mkdir -p /app/
 WORKDIR /app/
 
 # Install current Nginx
-RUN echo "deb http://nginx.org/packages/debian/ jessie nginx" >> /etc/apt/sources.list \
-  && echo "deb-src http://nginx.org/packages/debian/ jessie nginx" >> /etc/apt/sources.list \
+RUN echo "deb http://nginx.org/packages/debian/ stretch nginx" >> /etc/apt/sources.list \
+  && echo "deb-src http://nginx.org/packages/debian/ stretch nginx" >> /etc/apt/sources.list \
   && curl http://nginx.org/keys/nginx_signing.key > /tmp/nginx_signing.key \
   && apt-key add /tmp/nginx_signing.key \
   && apt-get update \
@@ -74,13 +74,20 @@ RUN \
   && chown -R docker:docker /home/docker/.ssh;
 
 # Install MySQL client
-RUN echo "deb http://repo.mysql.com/apt/debian jessie mysql-5.7" >> /etc/apt/sources.list \
+RUN echo "deb http://repo.mysql.com/apt/debian stretch mysql-5.7" >> /etc/apt/sources.list \
+  && echo "deb-src http://repo.mysql.com/apt/debuan stretch mysql-5.7" >> /etc/apt/sources.list \
   && gpg --recv-keys 5072E1F5 || true \
   && sleep 1s \
   && gpg --recv-keys 5072E1F5 \
   && gpg --export 5072E1F5 > /etc/apt/trusted.gpg.d/5072E1F5.gpg \
   && apt-get update \
   && apt-get --yes install mysql-client
+
+RUN echo "deb http://nginx.org/packages/debian/ stretch nginx" >> /etc/apt/sources.list \
+  && curl http://nginx.org/keys/nginx_signing.key > /tmp/nginx_signing.key \
+  && apt-key add /tmp/nginx_signing.key \
+  && apt-get update \
+  && export DEBIAN_FRONTEND=noninteractive \
 
 # Clean up image
 RUN docker-image-cleanup
