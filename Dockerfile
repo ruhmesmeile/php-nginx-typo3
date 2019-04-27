@@ -1,4 +1,4 @@
-FROM webdevops/php-nginx:7.1
+FROM webdevops/php-nginx:7.2
 
 # Add application dir
 RUN mkdir -p /app/
