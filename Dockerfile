@@ -5,8 +5,8 @@ RUN mkdir -p /app/
 WORKDIR /app/
 
 # Install current Nginx
-RUN echo "deb http://nginx.org/packages/debian/ stretch nginx" >> /etc/apt/sources.list \
-  && echo "deb-src http://nginx.org/packages/debian/ stretch nginx" >> /etc/apt/sources.list \
+RUN echo "deb http://nginx.org/packages/debian/ stretch nginx-full" >> /etc/apt/sources.list \
+  && echo "deb-src http://nginx.org/packages/debian/ stretch nginx-full" >> /etc/apt/sources.list \
   && curl http://nginx.org/keys/nginx_signing.key > /tmp/nginx_signing.key \
   && apt-key add /tmp/nginx_signing.key \
   && apt-get update \
