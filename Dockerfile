@@ -5,11 +5,14 @@ RUN mkdir -p /app/
 WORKDIR /app/
 
 # Install current Nginx
-RUN apt-get update && apt-get install -y apt-utils dirmngr \
-  && echo "deb http://ftp.debian.org/debian stretch-backports main" >> /etc/apt/sources.list \
-  && export DEBIAN_FRONTEND=noninteractive \
+RUN echo "deb http://nginx.org/packages/debian/ stretch nginx" >> /etc/apt/sources.list \
+  && echo "deb-src http://nginx.org/packages/debian/ stretch nginx" >> /etc/apt/sources.list \
+  && curl http://nginx.org/keys/nginx_signing.key > /tmp/nginx_signing.key \
+  && apt-key add /tmp/nginx_signing.key \
   && apt-get update \
-  && apt-get --assume-yes -o Dpkg::Options::="--force-confnew" -t stretch-backports install "nginx-full"
+  && export DEBIAN_FRONTEND=noninteractive \
+  && apt-get install -y dirmngr \
+  && apt-get -o Dpkg::Options::="--force-overwrite" -o Dpkg::Options::="--force-confnew" install -y nginx
 
 # Add directory for PHP socket
 RUN mkdir -p /var/run/php
@@ -38,7 +41,7 @@ COPY config/cron/crontab /etc/cron.d/typo3
 COPY config/cron/cron.conf /opt/docker/etc/supervisor.d/cron.conf
 
 # Install MySQL client
-RUN echo "deb http://repo.mysql.com/apt/debian jessie mysql-5.7" >> /etc/apt/sources.list \
+RUN echo "deb http://repo.mysql.com/apt/debian stretch mysql-5.7" >> /etc/apt/sources.list \
   && gpg --recv-keys 5072E1F5 || true \
   && sleep 1s \
   && gpg --recv-keys 5072E1F5 \
