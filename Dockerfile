@@ -5,13 +5,14 @@ RUN mkdir -p /app/
 WORKDIR /app/
 
 # Install current Nginx
-RUN echo "deb http://nginx.org/packages/debian/ jessie nginx" >> /etc/apt/sources.list \
-  && echo "deb-src http://nginx.org/packages/debian/ jessie nginx" >> /etc/apt/sources.list \
+RUN echo "deb http://nginx.org/packages/debian/ stretch nginx" >> /etc/apt/sources.list \
+  && echo "deb-src http://nginx.org/packages/debian/ stretch nginx" >> /etc/apt/sources.list \
   && curl http://nginx.org/keys/nginx_signing.key > /tmp/nginx_signing.key \
   && apt-key add /tmp/nginx_signing.key \
   && apt-get update \
   && export DEBIAN_FRONTEND=noninteractive \
-  && apt-get -o Dpkg::Options::="--force-confnew" install -y nginx
+  && apt-get install -y dirmngr \
+  && apt-get -o Dpkg::Options::="--force-overwrite" -o Dpkg::Options::="--force-confnew" install -y nginx
 
 # Add directory for PHP socket
 RUN mkdir -p /var/run/php
@@ -35,6 +36,10 @@ RUN version=$(php -r "echo PHP_MAJOR_VERSION.PHP_MINOR_VERSION;") \
   && mv /tmp/blackfire-*.so $(php -r "echo ini_get('extension_dir');")/blackfire.so \
   && ln -sf /opt/docker/etc/php/blackfire.ini /usr/local/etc/php/conf.d/97-blackfire.ini \
   && chown root:root $(php -r "echo ini_get('extension_dir');")/blackfire.so
+
+# Blackfire probe (1.24.4) on PHP71 seems to be resulting in core dumps / segmentation faults,
+# thus deactivated for now. Works on PHP72, though.
+RUN rm /opt/docker/etc/php/blackfire.ini
 
 # Configure Nginx
 COPY config/nginx/mime.types /etc/nginx/mime.types
@@ -74,7 +79,7 @@ RUN \
   && chown -R docker:docker /home/docker/.ssh;
 
 # Install MySQL client
-RUN echo "deb http://repo.mysql.com/apt/debian jessie mysql-5.7" >> /etc/apt/sources.list \
+RUN echo "deb http://repo.mysql.com/apt/debian stretch mysql-5.7" >> /etc/apt/sources.list \
   && gpg --recv-keys 5072E1F5 || true \
   && sleep 1s \
   && gpg --recv-keys 5072E1F5 \
