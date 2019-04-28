@@ -12,6 +12,7 @@ RUN echo "deb http://nginx.org/packages/debian/ stretch nginx" >> /etc/apt/sourc
   && apt-get update \
   && export DEBIAN_FRONTEND=noninteractive \
   && apt-get install -y dirmngr \
+  && mkdir ~/.gnupg && echo "disable-ipv6" >> ~/.gnupg/dirmngr.conf \ 
   && apt-get -o Dpkg::Options::="--force-overwrite" -o Dpkg::Options::="--force-confnew" install -y nginx
 
 # Add directory for PHP socket
