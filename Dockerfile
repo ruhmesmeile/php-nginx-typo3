@@ -11,7 +11,7 @@ RUN echo "deb http://nginx.org/packages/debian/ stretch nginx-full" >> /etc/apt/
   && apt-key add /tmp/nginx_signing.key \
   && apt-get update \
   && export DEBIAN_FRONTEND=noninteractive \
-  && apt-get -o Dpkg::Options::="--force-confnew" install -y nginx
+  && apt-get -o Dpkg::Options::="--force-overwrite" -o Dpkg::Options::="--force-confnew" install -y nginx
 
 # Add directory for PHP socket
 RUN mkdir -p /var/run/php
