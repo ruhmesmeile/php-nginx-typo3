@@ -11,7 +11,7 @@ RUN echo "deb http://nginx.org/packages/debian/ stretch nginx" >> /etc/apt/sourc
   && apt-key add /tmp/nginx_signing.key \
   && apt-get update \
   && export DEBIAN_FRONTEND=noninteractive \
-  && apt-get install dirmngr \
+  && apt-get install -y dirmngr \
   && apt-get -o Dpkg::Options::="--force-overwrite" -o Dpkg::Options::="--force-confnew" install -y nginx
 
 # Add directory for PHP socket
@@ -76,19 +76,12 @@ RUN \
 
 # Install MySQL client
 RUN echo "deb http://repo.mysql.com/apt/debian stretch mysql-5.7" >> /etc/apt/sources.list \
-  && echo "deb-src http://repo.mysql.com/apt/debuan stretch mysql-5.7" >> /etc/apt/sources.list \
   && gpg --recv-keys 5072E1F5 || true \
   && sleep 1s \
   && gpg --recv-keys 5072E1F5 \
   && gpg --export 5072E1F5 > /etc/apt/trusted.gpg.d/5072E1F5.gpg \
   && apt-get update \
   && apt-get --yes install mysql-client
-
-RUN echo "deb http://nginx.org/packages/debian/ stretch nginx" >> /etc/apt/sources.list \
-  && curl http://nginx.org/keys/nginx_signing.key > /tmp/nginx_signing.key \
-  && apt-key add /tmp/nginx_signing.key \
-  && apt-get update \
-  && export DEBIAN_FRONTEND=noninteractive \
 
 # Clean up image
 RUN docker-image-cleanup
