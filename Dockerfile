@@ -29,15 +29,6 @@ RUN pecl -d preferred_state=beta install apcu_bc \
   && echo "extension=apc.so" | tee /opt/docker/etc/php/apcu-bc.ini \
   && ln -sf /opt/docker/etc/php/apcu-bc.ini /usr/local/etc/php/conf.d/apcubc.ini
 
-# Configure Blackfire
-COPY config/php/97-blackfire.php.ini /opt/docker/etc/php/blackfire.ini
-RUN version=$(php -r "echo PHP_MAJOR_VERSION.PHP_MINOR_VERSION;") \
-  && curl -A "Docker" -o /tmp/blackfire-probe.tar.gz -D - -L -s https://blackfire.io/api/v1/releases/probe/php/linux/amd64/$version \
-  && tar zxpf /tmp/blackfire-probe.tar.gz -C /tmp \
-  && mv /tmp/blackfire-*.so $(php -r "echo ini_get('extension_dir');")/blackfire.so \
-  && ln -sf /opt/docker/etc/php/blackfire.ini /usr/local/etc/php/conf.d/97-blackfire.ini \
-  && chown root:root $(php -r "echo ini_get('extension_dir');")/blackfire.so
-
 # Configure Nginx
 COPY config/nginx/mime.types /etc/nginx/mime.types
 COPY config/nginx/fastcgi_params /etc/nginx/fastcgi_params
@@ -49,31 +40,6 @@ COPY config/nginx/vhost.common.d /opt/docker/etc/nginx/vhost.common.d
 # Configure cronjob
 COPY config/cron/crontab /etc/cron.d/typo3
 COPY config/cron/cron.conf /opt/docker/etc/supervisor.d/cron.conf
-
-# Configure local SSH server
-RUN apt-get --yes install openssh-server sudo \
-  && mkdir -p /var/run/sshd && sed -i "s/UsePrivilegeSeparation.*/UsePrivilegeSeparation no/g" /etc/ssh/sshd_config \
-  && sed -i 's/PermitRootLogin without-password/PermitRootLogin yes/' /etc/ssh/sshd_config \
-  && touch /root/.Xauthority \
-  && true
-
-ADD config/sshd/authorized_keys /tmp/authorized_keys
-
-RUN \
-  for MYHOME in /root /home/docker; do \
-    mkdir -p ${MYHOME}/.ssh; \
-    chmod go-rwx ${MYHOME}/.ssh; \
-    cp /tmp/authorized_keys ${MYHOME}/.ssh/authorized_keys; \
-    chmod go-rw ${MYHOME}/.ssh/authorized_keys; \
-  done \
-  && useradd docker \
-    && passwd -d docker \
-    && mkdir -p /home/docker \
-    && chown docker:docker /home/docker \
-    && addgroup docker staff \
-    && addgroup docker sudo \
-    && true \
-  && chown -R docker:docker /home/docker/.ssh;
 
 # Install MySQL client
 RUN echo "deb http://repo.mysql.com/apt/debian stretch mysql-5.7" >> /etc/apt/sources.list \
