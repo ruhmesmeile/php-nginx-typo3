@@ -20,8 +20,6 @@
 # recommended `msmtp` as an alternative; ¯\_(ツ)_/¯
 #
 
-if [[ $SSMTP_USER ]] && [[ $SSMTP_PASS ]]; then
-
 # set reasonable defaults
 
 SSMTP_TLS=${SSMTP_TLS:-YES}
@@ -33,8 +31,6 @@ SSMTP_FROM=${SSMTP_FROM:-USERNAME@HOSTNAME}
 # root=$SSMTP_TO
 cat << EOF > /etc/ssmtp/ssmtp.conf
 mailhub=$SSMTP_SERVER:$SSMTP_PORT
-AuthUser=$SSMTP_USER
-AuthPass=$SSMTP_PASS
 UseSTARTTLS=$SSMTP_TLS
 hostname=$SSMTP_HOSTNAME
 FromLineOverride=YES
@@ -70,4 +66,3 @@ done
 
 echo -e "$CONFIG" > /etc/ssmtp/revaliases
 
-fi
