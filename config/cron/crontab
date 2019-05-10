@@ -1,1 +1,1 @@
-* * * * * application /usr/local/bin/php /app/web/typo3/cli_dispatch.phpsh scheduler
+* * * * * application /app/web/typo3/sysext/core/bin/typo3 scheduler:run
