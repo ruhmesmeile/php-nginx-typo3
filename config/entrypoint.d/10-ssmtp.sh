@@ -20,7 +20,7 @@
 # recommended `msmtp` as an alternative; ¯\_(ツ)_/¯
 #
 
-if [[ $SSMTP_TO ]] && [[ $SSMTP_USER ]] && [[ $SSMTP_PASS ]]; then
+if [[ $SSMTP_USER ]] && [[ $SSMTP_PASS ]]; then
 
 # set reasonable defaults
 
