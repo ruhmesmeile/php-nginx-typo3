@@ -1,2 +1,2 @@
 MAILTO="infrastructure@ruhmesmeile.com"
-* * * * * application /usr/local/bin/php /app/web/typo3/sysext/core/bin/typo3 scheduler:run
+* * * * * application /usr/local/bin/php /app/vendor/bin/typo3cms scheduler:run
