@@ -91,6 +91,11 @@ RUN echo "deb http://repo.mysql.com/apt/debian stretch mysql-5.7" >> /etc/apt/so
 # Clean up image
 RUN docker-image-cleanup
 
+# Add supervisor.d service for APIs / node services
+COPY config/node/node.conf /opt/docker/etc/supervisor.d/node.conf
+COPY config/node/node-provision.sh /opt/docker/provision/service.d/node.sh
+COPY config/node/node-start.sh /opt/docker/bin/service.d/node.sh
+
 # Add utilities to container
 COPY util /usr/local/bin/rmutil
 RUN chmod a+x /usr/local/bin/rmutil/*
