@@ -6,7 +6,7 @@ set -o nounset   ## set -u : exit the script if you try to use an uninitialised 
 set -o errexit   ## set -e : exit the script if any statement returns a non-true return value
 # set -x # Uncomment for debugging
 
-pecl install -f xdebug-2.5.0;
+pecl install -f xdebug-2.6.1;
 docker-php-ext-enable xdebug;
 
 : ${XDEBUG_REMOTE_HOST:=127.0.0.1}
