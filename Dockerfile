@@ -76,8 +76,7 @@ RUN \
   && chown -R docker:docker /home/docker/.ssh;
 
 # Configure ssmtp mail
-RUN apt-get --yes install openssh-server ssmtp
-COPY config/entrypoint.d/10-ssmtp.sh /opt/docker/provision/entrypoint.d/10-ssmtp.sh
+RUN apt-get --yes install openssh-server
 
 # Install MySQL client
 RUN echo "deb http://repo.mysql.com/apt/debian stretch mysql-5.7" >> /etc/apt/sources.list \
