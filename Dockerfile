@@ -81,6 +81,8 @@ COPY config/entrypoint.d/10-ssmtp.sh /opt/docker/provision/entrypoint.d/10-ssmtp
 
 # Install MySQL client
 RUN echo "deb http://repo.mysql.com/apt/debian stretch mysql-5.7" >> /etc/apt/sources.list \
+  && find /root/.gnupg -type f -exec chmod 600 {} \
+  && find /root/.gnupg -type d -exec chmod 700 {} \
   && gpg --recv-keys 5072E1F5 || true \
   && sleep 1s \
   && gpg --recv-keys 5072E1F5 \
