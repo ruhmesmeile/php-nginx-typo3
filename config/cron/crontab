@@ -1,3 +1,4 @@
 MAILTO="infrastructure@ruhmesmeile.com"
-* * * * * application /usr/local/bin/php -d "apc.enablie_cli=1" /app/vendor/bin/typo3cms scheduler:run | sed '/^$/d'
+SHELL="/bin/bash"
+* * * * * application . $HOME/.bashrc; /usr/local/bin/php -d "apc.enablie_cli=1" /app/vendor/bin/typo3cms scheduler:run | sed '/^$/d'
 
